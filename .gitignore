@@ -1,0 +1,8 @@
+node_modules/
+.idea/
+dist/css/*
+dist/img/*
+dist/js/*
+dist/utils/*
+documentation/
+

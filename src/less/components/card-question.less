@@ -1,0 +1,33 @@
+.card-question {
+	&:extend(.card);
+
+	&__header {
+		background-color: @rose;
+		color: @white;
+		&:extend(.card__header);
+	}
+	&__label {
+		text-transform: uppercase;
+		font-weight: 300;
+	}
+	&__question {
+		font-size: 1.5rem;
+		font-weight: 700;
+	}
+	&__body {
+		&:extend(.card__body);
+	}
+	&__answers {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		a {
+			padding: 15px 20px;
+			text-decoration: none;
+			color: inherit;
+			display: block;
+			// cursor: pointer;
+			user-select: none;
+		}
+	}
+}

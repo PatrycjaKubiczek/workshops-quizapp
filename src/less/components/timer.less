@@ -1,0 +1,14 @@
+.timer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 5px;
+	&__marker {
+		height: 5px;
+		background-color: @rose;
+		transform: scaleX(0.2);
+		transition: transform 0.5s @transition-ease;
+		transform-origin: 0 50%;
+	}
+}

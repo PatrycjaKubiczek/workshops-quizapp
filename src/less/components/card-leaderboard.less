@@ -1,0 +1,41 @@
+.card-leaderboard {
+	&:extend(.card);
+	background-color: @purple-dark;
+
+	&__header {
+		&:extend(.card__header);
+		color: @white;
+	}
+
+	&__label {
+		text-transform: uppercase;
+		font-weight: 300;
+	}
+
+	&__body {
+		&:extend(.card__body);
+		margin: 0
+	}
+
+	&__list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		a {
+			text-decoration: none;
+			color: inherit;
+			// user-select: none;
+			display: flex;
+			justify-content: space-between;
+			padding: 10px 20px;
+		}
+	}
+
+	&__position, &__points {
+		font-size: 0.9rem;
+	}
+	&__name {
+		font-weight: 700;
+		text-transform: capitalize;
+	}
+}

@@ -1,0 +1,18 @@
+.result {
+	color: @white;
+	text-align: center;
+	opacity: 0;
+	transition: opacity @transition-time @transition-ease;
+
+	&__h2 {
+		font-size: 3rem;
+		font-weight: 700;
+	}
+
+	&__h3 {
+		font-weight: 300;
+	}
+	&__active {
+		opacity: 1;
+	}
+}
