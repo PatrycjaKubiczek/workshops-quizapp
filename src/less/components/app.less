@@ -2,4 +2,36 @@
 	height: 100vh;
 	width: 100vw;
 	background: radial-gradient(@purple-light, @purple-dark);
+	
+	font-family: @font-family-sans-serif;
+
+  	background: radial-gradient(@purple-light, @purple-dark);
+
+  .centercontainer {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top:0;
+    left:0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    perspective: 500px;
+
+    &--inactive {
+      pointer-events: none;
+    }
+  }
+
+  &--loading {
+    .centercontainer {
+      display:none;
+    }
+
+    .toaster{
+      display:none;
+    }
+  }
 }

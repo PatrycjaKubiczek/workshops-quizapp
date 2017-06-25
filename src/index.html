@@ -26,29 +26,29 @@
 </head>
 
 <body>
-    <div id="app" class="app loading">
+    <div id="app" class="app app--loading">
 
         <div class="timer">
-            <div class="timer__marker" v-bind:style="{ transform : 'scaleX(' + timer.value/timer.max + ')' }"></div>
+            <div class="timer__marker" v-bind:style="{ transform :  'scaleX(' + timer.value/timer.max + ')' }"></div>
         </div>
 
         <div class="toaster">
             <div class="toaster__toast">
                 <img src="img/join.svg" alt="">
-                <div class="toaster__text">{{user.name}}</div>
+                <div class="toaster__text" v-bind:style="{ background : user.color }">{{user.name}}</div>
             </div>
         </div>
 
         <div class="player">
-            <div class="player__container">
-                <div class="player__positions">{{user.position}}</div>
+            <div class="player__container" v-bind:style="{ background : ( user.color ? user.color : 'white' ) }">
+                <div class="player__positions">{{ user.position | position }}</div>
                 <div class="player__name">{{user.name}}</div>
                 <div class="player__points">{{user.points}}</div>
             </div>
         </div>
 
-        <div class="centercontainer" v-bind:class="{ 'inactive' : question.state.left || question.state.right }">
-            <div class="card-question" v-bind:class="question.state">
+        <div class="centercontainer" v-bind:class="{ 'centercontainer--inactive' : question.state.left || question.state.right }">
+            <div class="card-question" v-bind:class="{'card--left' : question.state.left, 'card--right' : question.state.right }">
                 <div class="card-question__header">
                     <div class="card-question__label">
                         QUESTION
@@ -60,8 +60,8 @@
                 </div>
                 <div class="card-question__body">
                     <ul class="card-question__answers">
-                        <li v-for=" answer in question.data.answers">
-                            <a href="#" v-on:click="sendAnswer(answer.id)">
+                        <li v-for="answer in question.data.answers">
+                            <a v-on:click="sendAnswer(answer.id)">
                                 {{ answer.answer }}
                             </a>
                         </li>
@@ -70,13 +70,13 @@
             </div>
         </div>
 
-        <div class="centercontainer" v-bind:class=" { 'inactive' : !result.state.active } ">
-            <div class="result" v-bind:class="result.state">
+        <div class="centercontainer" v-bind:class=" { 'centercontainer--inactive' : !result.state.active } ">
+            <div class="result" v-bind:class=" {'result--active' : result.state.active }">
                 <h2 class="result__h2">
                     {{ ( result.state.correct ? 'GOOD!' : 'Wrong!' ) }}
                     
                 </h2>
-                <h3 class="result__h3" v-if="result.state.correct && result.state.points > 0"  > 0 ">
+                <h3 class="result__h3" v-if="result.state.correct && result.state.points > 0">
                     You've gained {{ result.state.points }} points!
                 </h3>
                 <h3 class="result__h3"  v-if="result.state.correct &&  result.state.points === 0">
@@ -89,8 +89,8 @@
         </div>
 
         <div class="centercontainer" v-bind:class="{
-         'inactive' : leaderboard.state.left || leaderboard.state.right } ">
-            <div class="card-leaderboard" v-bind:class="leaderboard.state">
+         'centercontainer--inactive' : leaderboard.state.left || leaderboard.state.right } ">
+            <div class="card-leaderboard" v-bind:class="{ 'card--left' : leaderboard.state.left , 'card--right' : leaderboard.state.right }">
                 <div class="card-leaderboard__header">
                     <div class="card-leaderboard__label">
                         LEADERBOARD

@@ -3,7 +3,7 @@ import config from './config';
 import Vue from "vue/dist/vue.js";
 
 window.onload = () => {
-    document.querySelector('#app').classList.remove('loading');
+    document.querySelector('#app').classList.remove('app--loading');
 };
 
 let socket = io.connect(config.engine);
@@ -49,10 +49,30 @@ let app = new Vue({
             this.socket.emit('answer', {
                 'answer' : [id]
             })
+        },
+        shuffle : function(array){
+            for (let i = array.length; i; i--) {
+                let j = Math.floor(Math.random() * i);
+                [array[i - 1], array[j]] = [array[j], array[i - 1]];
+            }
         }
     },
 
-    filters : {},
+    filters : {
+        position : function (value) {
+            if (!value) {
+                return '-';
+            } else if (value % 10 === 1 && value !== 11 ) {
+                return value + 'st';
+            } else if (value % 10 === 2 ) {
+                return value + 'nd';
+            } else if ( value % 10 === 3) {
+                return value + 'rd';
+            } else {
+                return value + 'th';
+            }
+        }
+    },
 
     created : function(){
 
@@ -61,12 +81,18 @@ let app = new Vue({
             app.user.position = false;
             app.user.points = 0;
 
-            // config.questionTime = res.answerTime;
-            // config.leaderboardTime = res.leaderboardTime;
+            config.questionTime = res.answerTime;
+            config.leaderboardTime = res.leaderboardTime;
         });
 
         this.socket.on("question",function(res) {
             app.question.data = res; 
+
+            app.shuffle(app.question.data.answers);
+
+
+            app.timer.value=config.questionTime/1000;
+            app.timer.max=config.questionTime/1000;
 
             app.toaster.data.length = 0;
 
@@ -76,8 +102,8 @@ let app = new Vue({
 
         this.socket.on("questionResult",function(res) {
             app.result.state.active = true;
-            app.result.data.correct = res.correct;
-            app.result.data.points = res.points;
+            app.result.state.correct = res.correct;
+            app.result.state.points = res.points;
 
             app.question.state.left = true;
 
@@ -109,6 +135,10 @@ let app = new Vue({
                     app.user.position = app.leaderboard.data.leaderboard[i].position
                 }
             }
+
+            app.timer.value=config.leaderboardTime/1000;
+            app.timer.max=config.leaderboardTime/1000;
+
         });
 
         this.socket.on("leaderboardFinish",function() {
@@ -126,17 +156,19 @@ let app = new Vue({
 
         this.socket.on("message",function(res) {
 
+            app.toaster.data.push(res);
+
+
         });
 
     },
 
     mounted : function() {
-        this.timer.interval = setInterval(() =>{
-            if(app.timer.value > 0){
+        this.timer.interval = setInterval(() => {
+            if (app.timer.value>0){
                 app.timer.value--;
-
             }
-        }, 1000)
+        },1000);
     },
 });
 
